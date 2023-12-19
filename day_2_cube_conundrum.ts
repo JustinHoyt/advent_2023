@@ -1,25 +1,30 @@
-const lines = Deno.readTextFileSync("./day_2_cube_conundrum_input.txt").split("\n");
-// Last line is empty
+const lines = Deno.readTextFileSync("./day_2_cube_conundrum_input.txt").split(
+  "\n",
+);
 lines.pop();
 
-const MAX_RED = 12;
-const MAX_GREEN = 13;
-const MAX_BLUE = 14;
-const RED_INDEX = 0;
-const GREEN_INDEX = 1;
-const BLUE_INDEX = 2;
+const MAX_RED_ALLOWED = 12;
+const MAX_GREEN_ALLOWED = 13;
+const MAX_BLUE_ALLOWED = 14;
 
 const part1 = lines.reduce((sum: number, line: string, index: number) => {
-  const maxCubesSeen = ['red', 'green', 'blue'].map(color =>
-    Math.max(
-      ...Array.from(line.matchAll(new RegExp(`\\d+(?= ${color})`, 'g')))
-      .map(([match, ...rest]) => Number(match))
-    )
-  );
+  const getMatchedNumber = ([match, ...rest]: RegExpMatchArray) =>
+    Number(match);
 
-  return maxCubesSeen[RED_INDEX] <= MAX_RED &&
-      maxCubesSeen[GREEN_INDEX] <= MAX_GREEN &&
-      maxCubesSeen[BLUE_INDEX] <= MAX_BLUE
+  const maxCubesSeen = (color: string): number => {
+    const numbersAssociatedWithColor = new RegExp(`\\d+(?= ${color})`, "g");
+    return [...line.matchAll(numbersAssociatedWithColor)]
+      .map(getMatchedNumber)
+      .reduce((a, b) => Math.max(a, b));
+  };
+
+  return ([
+      ["red", MAX_RED_ALLOWED],
+      ["green", MAX_GREEN_ALLOWED],
+      ["blue", MAX_BLUE_ALLOWED],
+    ] as const).every(([color, maxAllowed]) =>
+      maxCubesSeen(color) <= maxAllowed
+    )
     ? sum + index + 1
     : sum;
 }, 0);
@@ -27,20 +32,18 @@ const part1 = lines.reduce((sum: number, line: string, index: number) => {
 console.log(part1);
 
 const part2 = lines.reduce((sum: number, line: string) => {
-  const getMatchedNumber = ([match, ...rest]: RegExpMatchArray) => Number(match);
+  const getMatchedNumber = ([match, ...rest]: RegExpMatchArray) =>
+    Number(match);
 
-  const calculateLeastRequiredCubes = (color: string): number => {
-    const numbersAssociatedWithColor = new RegExp(`\\d+(?= ${color})`, 'g');
+  const maxCubesSeen = (color: string): number => {
+    const numbersAssociatedWithColor = new RegExp(`\\d+(?= ${color})`, "g");
     return [...line.matchAll(numbersAssociatedWithColor)]
       .map(getMatchedNumber)
       .reduce((a, b) => Math.max(a, b));
-  }
+  };
 
-  const productOfLeastCubeRequired = ['red', 'green', 'blue']
-    .map(calculateLeastRequiredCubes)
-    .reduce((a, b) => a * b);
-
-  return sum + productOfLeastCubeRequired;
+  return sum +
+    maxCubesSeen("red") * maxCubesSeen("green") * maxCubesSeen("blue");
 }, 0);
 
 console.log(part2);
