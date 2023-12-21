@@ -8,7 +8,7 @@ const MAX_GREEN_ALLOWED = 13;
 const MAX_BLUE_ALLOWED = 14;
 
 const part1 = lines.reduce((sum: number, line: string, index: number) => {
-  const getMatchedNumber = ([match, ...rest]: RegExpMatchArray) =>
+  const getMatchedNumber = ([match, ..._rest]: RegExpMatchArray) =>
     Number(match);
 
   const maxCubesSeen = (color: string): number => {
@@ -32,7 +32,7 @@ const part1 = lines.reduce((sum: number, line: string, index: number) => {
 console.log(part1);
 
 const part2 = lines.reduce((sum: number, line: string) => {
-  const getMatchedNumber = ([match, ...rest]: RegExpMatchArray) =>
+  const getMatchedNumber = ([match, ..._rest]: RegExpMatchArray) =>
     Number(match);
 
   const maxCubesSeen = (color: string): number => {
