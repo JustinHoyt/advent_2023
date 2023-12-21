@@ -45,7 +45,7 @@ function cubeConundrum2(lines: string[]) {
   }, 0);
 }
 
-if(import.meta.main) {
+if (import.meta.main) {
   console.log(cubeConundrum1(
     Deno.readTextFileSync("./day_2_cube_conundrum_input.txt").split("\n"),
   ));
@@ -65,7 +65,7 @@ Deno.test(function realCase1() {
 
 Deno.test(function realCase2() {
   mod.assertEquals(
-  cubeConundrum2(
+    cubeConundrum2(
       Deno.readTextFileSync("./day_2_cube_conundrum_input.txt").split("\n"),
     ),
     54699,

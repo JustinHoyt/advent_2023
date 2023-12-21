@@ -22,7 +22,8 @@ function trebuchet2(lines: string[]): number {
       { name: "eight", replacement: "e8t" },
       { name: "nine", replacement: "n9e" },
     ].reduce(
-      (tempLine, { name, replacement }) => tempLine.replaceAll(name, replacement),
+      (tempLine, { name, replacement }) =>
+        tempLine.replaceAll(name, replacement),
       line,
     );
 
@@ -33,7 +34,7 @@ function trebuchet2(lines: string[]): number {
   }, 0);
 }
 
-if(import.meta.main) {
+if (import.meta.main) {
   console.log(trebuchet1(
     Deno.readTextFileSync("./day_1_trebuchet_input.txt").split("\n"),
   ));
@@ -53,10 +54,9 @@ Deno.test(function realCase1() {
 
 Deno.test(function realCase2() {
   mod.assertEquals(
-  trebuchet2(
+    trebuchet2(
       Deno.readTextFileSync("./day_1_trebuchet_input.txt").split("\n"),
     ),
     54100,
   );
 });
-
